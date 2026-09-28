@@ -23,7 +23,7 @@ document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
   event.preventDefault()
   const form = event.currentTarget
   const values = new FormData(form)
-  const subject = `Demande Studio Idolatry — ${values.get('purpose')}`
+  const subject = `Demande Idolatry Studio — ${values.get('purpose')}`
   const body = [
     `Nom : ${values.get('name')}`,
     `E-mail : ${values.get('email')}`,
