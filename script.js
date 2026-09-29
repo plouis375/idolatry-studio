@@ -1,6 +1,17 @@
 const toggle = document.querySelector('.menu-toggle')
 const nav = document.querySelector('.site-nav')
 
+const floatingTop = document.querySelector('.floating-top')
+const updateFloatingTop = () => {
+  const visible = window.scrollY > 480
+  floatingTop?.classList.toggle('is-visible', visible)
+  floatingTop?.setAttribute('aria-hidden', String(!visible))
+  if (floatingTop) floatingTop.tabIndex = visible ? 0 : -1
+}
+window.addEventListener('scroll', updateFloatingTop, { passive: true })
+updateFloatingTop()
+floatingTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }))
+
 toggle?.addEventListener('click', () => {
   const open = toggle.getAttribute('aria-expanded') === 'true'
   toggle.setAttribute('aria-expanded', String(!open))
