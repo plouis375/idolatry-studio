@@ -1,6 +1,43 @@
 const toggle = document.querySelector('.menu-toggle')
 const nav = document.querySelector('.site-nav')
 
+const lightbox = document.querySelector('#studio-lightbox')
+const galleryFigures = [...document.querySelectorAll('.studio-gallery .studio-photo')]
+const lightboxImage = lightbox?.querySelector('.lightbox-image')
+const lightboxCaption = lightbox?.querySelector('.lightbox-caption')
+const lightboxCount = lightbox?.querySelector('.lightbox-count')
+let currentGalleryIndex = 0
+
+const showGalleryImage = (index) => {
+  if (!lightbox || !lightboxImage || !galleryFigures.length) return
+  currentGalleryIndex = (index + galleryFigures.length) % galleryFigures.length
+  const figure = galleryFigures[currentGalleryIndex]
+  const image = figure.querySelector('img')
+  lightboxImage.src = image.currentSrc || image.src
+  lightboxImage.alt = image.alt
+  lightboxCaption.textContent = figure.querySelector('figcaption')?.textContent || image.alt
+  lightboxCount.textContent = `${currentGalleryIndex + 1} / ${galleryFigures.length}`
+}
+
+galleryFigures.forEach((figure, index) => {
+  figure.querySelector('.studio-photo-trigger')?.addEventListener('click', () => {
+    showGalleryImage(index)
+    lightbox?.showModal()
+    lightbox?.querySelector('.lightbox-close')?.focus()
+  })
+})
+
+lightbox?.querySelector('.lightbox-close')?.addEventListener('click', () => lightbox.close())
+lightbox?.querySelector('.lightbox-prev')?.addEventListener('click', () => showGalleryImage(currentGalleryIndex - 1))
+lightbox?.querySelector('.lightbox-next')?.addEventListener('click', () => showGalleryImage(currentGalleryIndex + 1))
+lightbox?.addEventListener('click', (event) => {
+  if (event.target === lightbox) lightbox.close()
+})
+lightbox?.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowLeft') showGalleryImage(currentGalleryIndex - 1)
+  if (event.key === 'ArrowRight') showGalleryImage(currentGalleryIndex + 1)
+})
+
 const floatingTop = document.querySelector('.floating-top')
 const updateFloatingTop = () => {
   const visible = window.scrollY > 480
