@@ -1,3 +1,7 @@
+const language = document.documentElement.lang || 'fr'
+const copy = language === 'fr'
+  ? { open:'Ouvrir le menu', close:'Fermer le menu', subject:'Demande Idolatry Studio', name:'Nom', email:'E-mail', purpose:'Demande', date:'Date souhaitée', specify:'À préciser', map:'Carte pour rejoindre Idolatry Studio à Ivry-sur-Seine' }
+  : { open:'Open menu', close:'Close menu', subject:'Idolatry Studio enquiry', name:'Name', email:'Email', purpose:'Enquiry', date:'Preferred date', specify:'To be confirmed', map:'Map to Idolatry Studio in Ivry-sur-Seine' }
 const toggle = document.querySelector('.menu-toggle')
 const nav = document.querySelector('.site-nav')
 
@@ -52,15 +56,17 @@ floatingTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior:
 toggle?.addEventListener('click', () => {
   const open = toggle.getAttribute('aria-expanded') === 'true'
   toggle.setAttribute('aria-expanded', String(!open))
-  toggle.setAttribute('aria-label', open ? 'Ouvrir le menu' : 'Fermer le menu')
+  toggle.setAttribute('aria-label', open ? copy.open : copy.close)
   nav?.classList.toggle('is-open', !open)
 })
 
 nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
   toggle?.setAttribute('aria-expanded', 'false')
-  toggle?.setAttribute('aria-label', 'Ouvrir le menu')
+  toggle?.setAttribute('aria-label', copy.open)
   nav.classList.remove('is-open')
 }))
+
+document.querySelectorAll('.map-frame iframe').forEach((frame) => { frame.title = copy.map })
 
 document.querySelectorAll('[data-package]').forEach((link) => link.addEventListener('click', () => {
   const purpose = document.querySelector('#contact-purpose')
@@ -71,12 +77,12 @@ document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
   event.preventDefault()
   const form = event.currentTarget
   const values = new FormData(form)
-  const subject = `Demande Idolatry Studio — ${values.get('purpose')}`
+  const subject = `${copy.subject} — ${values.get('purpose')}`
   const body = [
-    `Nom : ${values.get('name')}`,
-    `E-mail : ${values.get('email')}`,
-    `Demande : ${values.get('purpose')}`,
-    `Date souhaitée : ${values.get('date') || 'À préciser'}`,
+    `${copy.name}: ${values.get('name')}`,
+    `${copy.email}: ${values.get('email')}`,
+    `${copy.purpose}: ${values.get('purpose')}`,
+    `${copy.date}: ${values.get('date') || copy.specify}`,
     '',
     String(values.get('message')),
   ].join('\n')

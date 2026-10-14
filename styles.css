@@ -45,3 +45,5 @@
 .studio-lightbox button:hover{background:#fff;color:#111}
 @media(max-width:600px){.studio-lightbox{padding:64px 12px 22px;grid-template-columns:42px minmax(0,1fr) 42px;gap:8px}.studio-lightbox button{width:38px;height:38px;font-size:20px}.studio-lightbox .lightbox-close{top:14px;right:14px}.lightbox-image{max-height:calc(100svh - 145px)}}
 .studio-photo figcaption{pointer-events:none}
+
+.site-nav .language-switch{font-size:10px;font-weight:700;letter-spacing:.12em;opacity:.72;border-bottom:1px solid rgba(255,255,255,.45);padding:5px 0}.site-nav .language-switch:hover{opacity:1}
