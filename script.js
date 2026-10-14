@@ -25,15 +25,6 @@ nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () =
   nav.classList.remove('is-open')
 }))
 
-document.querySelectorAll('[data-map-url]').forEach((button) => button.addEventListener('click', () => {
-  const frame = document.createElement('iframe')
-  frame.title = 'Carte pour rejoindre Idolatry Studio à Ivry-sur-Seine'
-  frame.src = button.dataset.mapUrl
-  frame.loading = 'lazy'
-  frame.referrerPolicy = 'no-referrer-when-downgrade'
-  button.replaceWith(frame)
-}))
-
 document.querySelectorAll('[data-package]').forEach((link) => link.addEventListener('click', () => {
   const purpose = document.querySelector('#contact-purpose')
   if (purpose) purpose.value = link.dataset.package
@@ -52,7 +43,7 @@ document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
     '',
     String(values.get('message')),
   ].join('\n')
-  window.location.href = `mailto:production@idolatry.tv?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  window.location.href = `mailto:studio@idolatry.paris?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
 })
 
 document.querySelector('#year').textContent = String(new Date().getFullYear())
