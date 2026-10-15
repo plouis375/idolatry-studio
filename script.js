@@ -2,6 +2,11 @@ const language = document.documentElement.lang || 'fr'
 const copy = language === 'fr'
   ? { open:'Ouvrir le menu', close:'Fermer le menu', subject:'Demande Idolatry Studio', name:'Nom', email:'E-mail', purpose:'Demande', date:'Date souhaitée', specify:'À préciser', map:'Carte pour rejoindre Idolatry Studio à Ivry-sur-Seine' }
   : { open:'Open menu', close:'Close menu', subject:'Idolatry Studio enquiry', name:'Name', email:'Email', purpose:'Enquiry', date:'Preferred date', specify:'To be confirmed', map:'Map to Idolatry Studio in Ivry-sur-Seine' }
+
+window.dataLayer = window.dataLayer || []
+function gtag(){window.dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'AW-1031371802')
 const toggle = document.querySelector('.menu-toggle')
 const nav = document.querySelector('.site-nav')
 
@@ -75,6 +80,7 @@ document.querySelectorAll('[data-package]').forEach((link) => link.addEventListe
 
 document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
   event.preventDefault()
+  gtag('event', 'conversion', { send_to: 'AW-1031371802/bpogCOC28J0dEJr45esD' })
   const form = event.currentTarget
   const values = new FormData(form)
   const subject = `${copy.subject} — ${values.get('purpose')}`
