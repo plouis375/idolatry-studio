@@ -54,4 +54,4 @@
 .site-nav .language-switch:hover{opacity:1}
 .site-nav .language-switch{align-self:center}
 @media(max-width:760px){.site-nav .language-switch{align-self:flex-start;margin:8px 0 12px}}
-@media(prefers-reduced-motion:reduce){.language-switch-thumb,.language-switch-label{transition:none}}
+@media(min-width:761px){.site-nav .language-switch{order:1}}
