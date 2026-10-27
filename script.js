@@ -1,7 +1,7 @@
 const language = document.documentElement.lang || 'fr'
 const copy = language === 'fr'
-  ? { open:'Ouvrir le menu', close:'Fermer le menu', subject:'Demande Idolatry Studio', name:'Nom', email:'E-mail', purpose:'Demande', date:'Date souhaitée', specify:'À préciser', map:'Carte pour rejoindre Idolatry Studio à Ivry-sur-Seine' }
-  : { open:'Open menu', close:'Close menu', subject:'Idolatry Studio enquiry', name:'Name', email:'Email', purpose:'Enquiry', date:'Preferred date', specify:'To be confirmed', map:'Map to Idolatry Studio in Ivry-sur-Seine' }
+  ? { open:'Ouvrir le menu', close:'Fermer le menu', subject:'Demande Idolatry Studio', name:'Nom', email:'E-mail', purpose:'Demande', date:'Date souhaitée', specify:'À préciser', source:'Nous a connus', link:'Lien suivi', map:'Carte pour rejoindre Idolatry Studio à Ivry-sur-Seine' }
+  : { open:'Open menu', close:'Close menu', subject:'Idolatry Studio enquiry', name:'Name', email:'Email', purpose:'Enquiry', date:'Preferred date', specify:'To be confirmed', source:'Heard about us', link:'Tracked link', map:'Map to Idolatry Studio in Ivry-sur-Seine' }
 
 window.dataLayer = window.dataLayer || []
 function gtag(){window.dataLayer.push(arguments)}
@@ -83,12 +83,16 @@ document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
   gtag('event', 'conversion', { send_to: 'AW-1031371802/bpogCOC28J0dEJr45esD' })
   const form = event.currentTarget
   const values = new FormData(form)
+  // Paramètres utm_* de l'adresse, pour savoir quelle publicité a amené la demande
+  const tracking = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'].map((key) => new URLSearchParams(window.location.search).get(key)).filter(Boolean).join(' / ')
   const subject = `${copy.subject} — ${values.get('purpose')}`
   const body = [
     `${copy.name}: ${values.get('name')}`,
     `${copy.email}: ${values.get('email')}`,
     `${copy.purpose}: ${values.get('purpose')}`,
     `${copy.date}: ${values.get('date') || copy.specify}`,
+    `${copy.source}: ${values.get('source') || copy.specify}`,
+    ...(tracking ? [`${copy.link}: ${tracking}`] : []),
     '',
     String(values.get('message')),
   ].join('\n')
