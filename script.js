@@ -6,6 +6,13 @@ const copy = language === 'fr'
 window.dataLayer = window.dataLayer || []
 function gtag(){window.dataLayer.push(arguments)}
 gtag('js', new Date())
+// Consent Mode v2 : aucun cookie publicitaire tant que le visiteur n'a pas accepté
+const consentKey = 'idolatry-studio-consent'
+const consentFields = (state) => ({ ad_storage: state, ad_user_data: state, ad_personalization: state, analytics_storage: state })
+gtag('consent', 'default', consentFields('denied'))
+let storedConsent = null
+try { storedConsent = localStorage.getItem(consentKey) } catch (error) {}
+if (storedConsent === 'granted') gtag('consent', 'update', consentFields('granted'))
 gtag('config', 'AW-1031371802')
 const toggle = document.querySelector('.menu-toggle')
 const nav = document.querySelector('.site-nav')
@@ -77,6 +84,34 @@ document.querySelectorAll('[data-package]').forEach((link) => link.addEventListe
   const purpose = document.querySelector('#contact-purpose')
   if (purpose) purpose.value = link.dataset.package
 }))
+
+// Bandeau cookies : affiché tant que le visiteur n'a pas répondu
+const consentCopy = language === 'fr'
+  ? { text: 'Nous utilisons des cookies Google Ads pour mesurer nos campagnes.', more: 'En savoir plus', accept: 'Accepter', refuse: 'Refuser', label: 'Choix des cookies', href: 'https://www.idolatry.tv/mentions-legales' }
+  : { text: 'We use Google Ads cookies to measure our campaigns.', more: 'Learn more', accept: 'Accept', refuse: 'Refuse', label: 'Cookie choice', href: 'https://www.idolatry.tv/mentions-legales' }
+
+const setConsent = (granted) => {
+  const state = granted ? 'granted' : 'denied'
+  gtag('consent', 'update', consentFields(state))
+  try { localStorage.setItem(consentKey, state) } catch (error) {}
+}
+
+const showConsentBanner = () => {
+  const banner = document.createElement('div')
+  banner.className = 'consent-banner'
+  banner.setAttribute('role', 'dialog')
+  banner.setAttribute('aria-label', consentCopy.label)
+  banner.innerHTML = `<p>${consentCopy.text} <a href="${consentCopy.href}">${consentCopy.more}</a></p><div class="consent-actions"><button type="button" class="consent-refuse">${consentCopy.refuse}</button><button type="button" class="consent-accept">${consentCopy.accept}</button></div>`
+  const close = (granted) => {
+    setConsent(granted)
+    banner.remove()
+  }
+  banner.querySelector('.consent-accept').addEventListener('click', () => close(true))
+  banner.querySelector('.consent-refuse').addEventListener('click', () => close(false))
+  document.body.append(banner)
+}
+
+if (storedConsent === null) showConsentBanner()
 
 document.querySelector('#contact-form')?.addEventListener('submit', (event) => {
   event.preventDefault()
