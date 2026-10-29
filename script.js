@@ -14,6 +14,8 @@ let storedConsent = null
 try { storedConsent = localStorage.getItem(consentKey) } catch (error) {}
 if (storedConsent === 'granted') gtag('consent', 'update', consentFields('granted'))
 gtag('config', 'AW-1031371802')
+// Google Analytics 4 : mesure des visites et des paramètres utm_*
+gtag('config', 'G-SBVGNYG0YK')
 const toggle = document.querySelector('.menu-toggle')
 const nav = document.querySelector('.site-nav')
 
