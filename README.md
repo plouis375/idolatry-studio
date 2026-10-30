@@ -171,6 +171,33 @@ Chaque changement poussé sur `main` déclenche un nouveau déploiement.
 
 <br />
 
+## Pour reprendre
+
+*État au 30/10/2026.*
+
+**État actuel.** Site en ligne et sain (https://studio.idolatry.tv/ répond 200, HTTPS actif, domaine défini par `CNAME`). Deux pages seulement : l'accueil FR et l'accueil EN, plus les mentions légales dans chaque langue. Surface harmonisée à 90 m² partout (« 90 m² » en FR, « 90 sqm » en EN). Descriptions meta sous 160 caractères. Le projet Melvita renvoie directement vers https://www.idolatry.tv/projets/melvita-laury-thilleman.
+
+**Tester et mettre en ligne.**
+1. Tester en local : `python3 -m http.server 8000` à la racine, puis ouvrir `/` et `/en/`.
+2. Toute modification d'un texte doit être faite **dans les deux langues** (`index.html` et `en/index.html`), y compris les balises meta, le JSON-LD et le `sitemap.xml`.
+3. `git push origin main` publie tout de suite via GitHub Pages (compter une à deux minutes). Vérifier ensuite que https://studio.idolatry.tv/ répond 200.
+4. Ne rien pousser sans validation : ce qui est en ligne fait référence.
+
+**Pièges connus.**
+- Pas de compilation ni de test automatique : une faute de frappe dans le HTML est publiée telle quelle.
+- Le formulaire de contact est un `mailto:` (adresse `studio@idolatry.paris`) : il ouvre la messagerie du visiteur, rien n'est reçu par un serveur, aucune demande n'est stockée.
+- Mesure d'audience : balises Google (`G-SBVGNYG0YK`, propriété Analytics 561386086, et Google Ads `AW-1031371802`) dans `script.js`, en Consent Mode v2 (tout refusé par défaut, choix gardé dans le navigateur sous la clé `idolatry-studio-consent`). Conservation des données réglée à 14 mois côté Analytics. La conversion Ads part à l'envoi du formulaire (préparation du message), et les paramètres `utm_*` de l'adresse sont ajoutés au corps de l'e-mail pour savoir quelle campagne a amené la demande.
+- Les en-têtes de sécurité (HSTS, X-Frame-Options, etc.) ne sont pas réglables sur GitHub Pages. Il faudrait placer un service devant le site, de type Cloudflare.
+- Le dossier `docs/` ne sert qu'à ce README : ne pas y mettre de contenu du site.
+
+**Prochaines étapes, par priorité.**
+1. **Ajouter des pages** (levier SEO principal : l'audit du 30/10 n'en trouve que 2). Ordre conseillé : tarifs, matériel, galerie, FAQ. Comment : une page HTML par sujet en FR et son équivalent sous `en/`, reprendre l'en-tête, le pied de page et `styles.css`, ajouter chaque URL au `sitemap.xml` avec ses `hreflang`, relier les pages depuis le menu.
+2. **Brancher un vrai formulaire** si l'on veut recevoir les demandes sans dépendre de la messagerie du visiteur (service de formulaires tiers, ou service devant le site). À décider avec Pierre-Louis, car cela change les mentions légales et le bandeau de consentement.
+3. **Mettre un service devant le site** (Cloudflare) seulement si les en-têtes de sécurité deviennent nécessaires. Le domaine `studio.idolatry.tv` passerait alors par ses DNS : à faire avec précaution, le site doit rester joignable.
+4. **Contrôler les statistiques** dans Analytics après quelques semaines de bandeau, pour vérifier que la mesure et la conversion remontent.
+
+<br />
+
 ## Droits
 
 Les textes, photographies et logos du site sont © Idolatry, tous droits réservés. Aucune licence d'utilisation n'est accordée : toute reproduction ou réutilisation nécessite l'accord préalable d'Idolatry.
