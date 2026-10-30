@@ -89,8 +89,8 @@ document.querySelectorAll('[data-package]').forEach((link) => link.addEventListe
 
 // Bandeau cookies : affiché tant que le visiteur n'a pas répondu
 const consentCopy = language === 'fr'
-  ? { text: 'Nous utilisons des cookies Google Ads et Google Analytics pour mesurer nos campagnes et les visites du site.', more: 'En savoir plus', accept: 'Accepter', refuse: 'Refuser', label: 'Choix des cookies', href: 'https://www.idolatry.tv/mentions-legales' }
-  : { text: 'We use Google Ads and Google Analytics cookies to measure our campaigns and site visits.', more: 'Learn more', accept: 'Accept', refuse: 'Refuse', label: 'Cookie choice', href: 'https://www.idolatry.tv/mentions-legales' }
+  ? { text: 'Nous utilisons des cookies Google Ads et Google Analytics pour mesurer nos campagnes et les visites du site.', more: 'En savoir plus', accept: 'Accepter', refuse: 'Refuser', label: 'Choix des cookies', href: 'mentions-legales.html' }
+  : { text: 'We use Google Ads and Google Analytics cookies to measure our campaigns and site visits.', more: 'Learn more', accept: 'Accept', refuse: 'Refuse', label: 'Cookie choice', href: 'mentions-legales.html' }
 
 const setConsent = (granted) => {
   const state = granted ? 'granted' : 'denied'
